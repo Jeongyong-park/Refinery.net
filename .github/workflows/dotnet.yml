@@ -1,0 +1,70 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: .NET
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+      
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+
+
+    - name: Test
+      run: dotnet test --configuration Release --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory ./coverage
+
+    - name: Code Coverage Report
+      uses: irongut/CodeCoverageSummary@v1.3.0
+      with:
+        filename: coverage/**/coverage.cobertura.xml
+        badge: true
+        fail_below_min: true
+        format: markdown
+        hide_branch_rate: false
+        hide_complexity: true
+        indicators: true
+        output: both
+        thresholds: '60 80'
+        
+    - name: Add Coverage PR Comment
+      uses: marocchino/sticky-pull-request-comment@v2
+      if: github.event_name == 'pull_request'
+      with:
+        recreate: true
+        path: code-coverage-results.md
+        
+    - name: Create the package
+      run: dotnet pack --configuration Release src/Refinery
+      
+    - name: Publish the package to GPR
+      id: publish_nuget
+      uses: brandedoutcast/publish-nuget@v2
+      with:
+        PROJECT_FILE_PATH: src/Refinery/Refinery.csproj
+        BUILD_CONFIGURATION: Release
+        PACKAGE_NAME: Refinery
+        # Filepath with version info, relative to root of repository & defaults to PROJECT_FILE_PATH
+        VERSION_FILE_PATH: src/Refinery/Directory.Build.props
+        # Regex pattern to extract version info in a capturing group
+        VERSION_REGEX: ^\s*<Version>(.*)<\/Version>\s*$
+        NUGET_SOURCE: https://api.nuget.org
+        NUGET_KEY: ${{ secrets.NUGET_APIKEY }}
+        TAG_COMMIT: true
+        INCLUDE_SYMBOLS: false
