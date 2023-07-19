@@ -36,5 +36,5 @@ jobs:
         color: brightgreen
         path: test/Refinery/TestResults/coverage.opencover.xml
         gist-filename: code-coverage.json
-        gist-id: 1234567890abcdef1234567890abcdef
+        gist-id: 8cc488fb2d50458dfba95a1e11582131
         gist-auth-token: ${{ secrets.GIST_AUTH_TOKEN }}  
