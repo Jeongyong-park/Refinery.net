@@ -7,7 +7,7 @@
     <AssemblyVersion>1.0.1.0</AssemblyVersion>
     <FileVersion>1.0.1.0</FileVersion>
     <Authors>Jeongyong Park</Authors>
-    <PackageId>RefineryNet</PackageId>
+    <PackageId>Refinery</PackageId>
     <PackageTags>xlsx;xls;extraction;data-extraction;semi-structured-data;excel-extraction;wrangling</PackageTags>
     <Description>
       Refinery is a tool to extract and transform semi-structured data from Excel spreadsheets of
