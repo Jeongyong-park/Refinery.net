@@ -33,5 +33,5 @@ jobs:
       run: dotnet pack --configuration Release src/Refinery/Refinery.csproj --no-restore
     
     - name: Publish to Nuget 
-      run: dotnet nuget push "src/Refinery/bin/Release/RefineryNet.1.0.1.nupkg"  --api-key ${{secrets.NUGET_APIKEY}}
+      run: dotnet nuget push "src/Refinery/bin/Release/RefineryNet.*.nupkg"  --api-key ${{secrets.NUGET_APIKEY}}
 
