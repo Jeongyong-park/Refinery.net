@@ -1,7 +1,7 @@
 # This workflow will build a .NET project
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
 
-name: .NET
+name: .NET Coverage
 
 on:
   push:
@@ -14,33 +14,17 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    env:
-      DOTNET_INSTALL_DIR: '.\.dotnet'
-
-
     steps:
-    - name: Cache dotnet
-      id: cache-dotnet
-      uses: actions/cache@v3
-      with:
-        path: ${{ env.DOTNET_INSTALL_DIR }}
-        key: ${{ runner.os }}-dotnet-6
-        restore-keys: ${{ runner.os }}-dotnet-6
-
-    - name: Install dotnet
-      if: ${{ steps.cache-dotnet.outputs.cache-hit != 'true' }}
+    - uses: actions/checkout@v3
+    - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 6.0.x
-
-    - name: Check default dotnet version
-      run: dotnet --version
-
-    - name: Set installed/cached dotnet path [${{ env.DOTNET_INSTALL_DIR }}]
-      run: echo "${{ env.DOTNET_INSTALL_DIR }}" | Out-File -FilePath $ENV:GITHUB_PATH -Encoding utf8 -Append
-
-    - name: Check installed/cached dotnet version
-      run: dotnet --version
+    - name: Restore dependencies
+      run: dotnet restore
+      
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
 
     - uses: actions/checkout@v3
 
