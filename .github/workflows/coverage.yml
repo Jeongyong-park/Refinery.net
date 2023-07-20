@@ -45,10 +45,30 @@ jobs:
         path: test/Refinery/TestResults/coverage.opencover.xml
         gist-filename: code-coverage.json
         gist-id: 46a21aa154d4833498d6eb52ad79d6e1
-        gist-auth-token: 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    
+        gist-auth-token: ${{ secrets.GIST_AUTH_TOEKN }}   
         
     - name: Print code coverage
       run: echo "Code coverage percentage ${{steps.create_coverage_badge.outputs.percentage}}%"
 
     - name: Print badge data
       run: echo "Badge data ${{steps.test_step.outputs.badge}}"
+      
+    - name: Add Badges
+      uses: rocktimsaikia/badge-it@master
+      with:
+        GITHUB_TOKEN: ${{ secrets.MY_TOKEN }}
+        badges: 'gh_license, gh_version, gh_stars'
+        badge-style: 'flat-square'
+
+    - name: Create the Badge
+      uses: schneegans/dynamic-badges-action@v1.0.0
+      with:
+        auth: ${{ secrets.GIST_AUTH_TOEKN }}
+        gistID: 46a21aa154d4833498d6eb52ad79d6e1
+        filename: refineryNet__${{ env.BRANCH }}.json
+        label: Test Coverage
+        message: ${{steps.create_coverage_badge.outputs.percentage}}%
+        valColorRange: ${{ steps.create_coverage_badge.outputs.percentage}}
+        maxColorRange: 100
+        minColorRange: 0
+        namedLogo: jest
