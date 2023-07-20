@@ -6,3 +6,11 @@
 # Refinery
 
 This repo is ported from [Refinery](https://github.com/VorTECHsa/refinery) writen by Kotlin lang to C#(.Net Core)
+
+Refinery is an open source tool to extract semi-structured data from Excel spreadsheets (both in `.xls` and `.xlsx` format) in a declarative way.
+
+In the E-T-L process, refinery focuses on the E: Extract.
+
+With declarative DRY schemas representing the expectations for a given data source, Refinery makes data pipelines more maintainable. 
+
+All documentation is located under [GitHub Wiki](https://github.com/VorTECHsa/refinery/wiki)
