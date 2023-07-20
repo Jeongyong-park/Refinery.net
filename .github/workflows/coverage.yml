@@ -52,13 +52,6 @@ jobs:
 
     - name: Print badge data
       run: echo "Badge data ${{steps.test_step.outputs.badge}}"
-      
-    - name: Add Badges
-      uses: rocktimsaikia/badge-it@master
-      with:
-        GITHUB_TOKEN: ${{ secrets.MY_TOKEN }}
-        badges: 'gh_license, gh_version, gh_stars'
-        badge-style: 'flat-square'
 
     - name: Create the Badge
       uses: schneegans/dynamic-badges-action@v1.0.0
