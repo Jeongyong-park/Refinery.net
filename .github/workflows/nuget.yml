@@ -22,7 +22,7 @@ jobs:
       run: dotnet restore
       working-directory: src/Refinery
     - name: Build
-      run: dotnet build src/Refinery/Refinery.sln --no-restore
+      run: dotnet build src/Refinery/Refinery.csproj --no-restore
     - name: Publish to NuGet
       uses: brandedoutcast/publish-nuget@v2
       with:
