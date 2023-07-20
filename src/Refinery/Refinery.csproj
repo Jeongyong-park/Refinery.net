@@ -3,7 +3,7 @@
     <Nullable>warnings</Nullable>
     <TargetFrameworks>netstandard2.1;</TargetFrameworks>
     <Version></Version>
-    <PackageVersion>1.0.1</PackageVersion>
+    <PackageVersion>1.0.2</PackageVersion>
     <AssemblyVersion>1.0.1.0</AssemblyVersion>
     <FileVersion>1.0.1.0</FileVersion>
     <Authors>Jeongyong Park</Authors>
