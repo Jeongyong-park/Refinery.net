@@ -45,4 +45,10 @@ jobs:
         path: test/Refinery/TestResults/coverage.opencover.xml
         gist-filename: code-coverage.json
         gist-id: 46a21aa154d4833498d6eb52ad79d6e1
-        gist-auth-token: ${{ secrets.GIST_AUTH_TOKEN }}  
+        gist-auth-token: ${{ secrets.GIST_AUTH_TOKEN }}       
+        
+    - name: Print code coverage
+      run: echo "Code coverage percentage ${{steps.create_coverage_badge.outputs.percentage}}%"
+
+    - name: Print badge data
+      run: echo "Badge data ${{steps.test_step.outputs.badge}}"
