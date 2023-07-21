@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using NPOI.SS.Formula.UDF;
 using NPOI.SS.UserModel;
+using Refinery.Cell;
 using Refinery.Domain;
 using Refinery.Result;
 
@@ -11,12 +13,14 @@ namespace Refinery
         private readonly List<MetadataEntryDefinition> definitions;
         private readonly ISheet sheet;
         private readonly string workbookName;
+        private readonly MergedCellsResolver mergedCellsResolver;
 
-        public MetadataParser(List<MetadataEntryDefinition> definitions, ISheet sheet, string workbookName)
+        public MetadataParser(List<MetadataEntryDefinition> definitions, ISheet sheet, string workbookName, MergedCellsResolver mergedCellsResolver)
         {
             this.definitions = definitions;
             this.sheet = sheet;
             this.workbookName = workbookName;
+            this.mergedCellsResolver = mergedCellsResolver;
         }
 
         public Metadata ExtractMetadata()
@@ -69,6 +73,16 @@ namespace Refinery
                     cell = sheet.GetRow(matchingCell.RowIndex).GetCell(matchingCell.ColumnIndex);
                     break;
                 case MetadataValueLocation.NextCellValue:
+                    var mergedCell= mergedCellsResolver[matchingCell.RowIndex, matchingCell.ColumnIndex];
+                    if (mergedCell?.IsMergedCell??false) {
+                        int idx = 1;
+                        while (mergedCellsResolver[matchingCell.RowIndex, matchingCell.ColumnIndex + idx]?.IsMergedCell ?? false)
+                        {
+                            idx++;
+                        }
+                        cell = sheet.GetRow(matchingCell.RowIndex).GetCell(matchingCell.ColumnIndex + idx);
+                        break;
+                    }                    
                     cell = sheet.GetRow(matchingCell.RowIndex).GetCell(matchingCell.ColumnIndex + 1);
                     break;
                 default:

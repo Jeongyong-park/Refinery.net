@@ -35,7 +35,7 @@ namespace Refinery
         {
             try
             {
-                Metadata metadata = new MetadataParser(definition.MetadataParserDefinition, sheet, workbookName).ExtractMetadata();
+                Metadata metadata = new MetadataParser(definition.MetadataParserDefinition, sheet, workbookName, mergedCellsResolver).ExtractMetadata();
                 List<TableParser> tableParsers = ResolveTableParsers(metadata);
                 List<ParsedRecord> parsedRecords = new List<ParsedRecord>();
                 foreach (TableParser tableParser in tableParsers)
