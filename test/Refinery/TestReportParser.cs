@@ -340,10 +340,10 @@ namespace Refinery.Tests
                 {
                     { "workbook_name", fileName },
                     { "spreadsheet_name", "Sheet1" },
-                    { "string", "six" },
-                    { "number", 6 },
-                    { "date", new DateTime(2021, 1, 6, 0, 0, 0) },
-                    { "row_number", 7 }
+                    { "string", "four and five" },
+                    { "number", 5 },
+                    { "date", new DateTime(2021, 1, 5, 0, 0, 0) },
+                    { "row_number", 6 }
                 }
             ), records);
         }

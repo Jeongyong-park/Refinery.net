@@ -27,9 +27,11 @@ namespace Refinery.Tests.Configuration
                             Date,
                             OptionalString
                         },
-                        new HashSet<AbstractHeaderCell>{ }
+                        new HashSet<AbstractHeaderCell>{ },
+                        rowParserFactory: (rpd, em)=>new GenericRowParser(rpd, em)
 
-                        )
+                        ),
+
 
                 }
             )

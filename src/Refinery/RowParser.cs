@@ -63,7 +63,8 @@ namespace Refinery
         {
             var rowData = ExtractDataFromRow(row);
             Dictionary<string, object> metadata = rowParserData.Metadata.AllData();
-            metadata.Add(Metadata.ROW_NUMBER, row.RowNum + 1);
+            metadata[Metadata.ROW_NUMBER] = row.RowNum + 1;
+            //metadata.Add(Metadata.ROW_NUMBER, row.RowNum + 1);
             return MergeDictionaries(metadata, rowData);
         }
 

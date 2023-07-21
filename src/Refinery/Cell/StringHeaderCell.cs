@@ -31,10 +31,10 @@ namespace Refinery.Cell
             string cellValue = cell.StringCellValue.Trim();
 
             return Patterns.Any(pattern => cellValue.ToLower().Contains(pattern.ToLower()));
-            
+
         }
 
-        public override string ToString() => Patterns.ToString();
+        public override string ToString() => $"[{String.Join(", ", Patterns)}]";
 
 
     }
