@@ -10,18 +10,14 @@ namespace Refinery.Cell
     /// </summary>
     public class SimpleHeaderCell : AbstractHeaderCell
     {
-        /// <summary>
-        /// The header name.
-        /// </summary>
-        public string Name { get; }
 
         public SimpleHeaderCell(string name)
         {
-            Name = name;
+            this.Name = name;
         }
 
         public override bool Matches(ICell cell) => cell.ToString().Trim().Equals(Name) ;
 
-        public override string ToString() => Name;
+
     }
 }

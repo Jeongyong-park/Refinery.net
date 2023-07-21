@@ -209,7 +209,7 @@ namespace Refinery
 
         private Metadata EnrichMetadata()
         {
-            if (definition.Anchor != null)
+            if (!String.IsNullOrWhiteSpace(definition.Anchor))
             {
                 return metadata.Plus(new KeyValuePair<string, object>(Metadata.ANCHOR, definition.Anchor));
             }

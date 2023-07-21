@@ -13,7 +13,7 @@ namespace Refinery.Tests.Cell.Parser
         {
             NPOI.Util.LocaleUtil.SetUserLocale(CultureInfo.GetCultureInfo("en-US"));
 
-            var file = new FileInfo("spreadsheet_examples/cell_parsers.xlsx");
+            var file = new FileInfo("Resources/spreadsheet_examples/cell_parsers.xlsx");
             using (var stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.Read))
             {
                 workbook = new XSSFWorkbook(stream);

@@ -18,7 +18,7 @@ namespace Refinery.Tests.Cell
 
         public TestHeaderRowResolver()
         {
-            var file = new FileInfo("spreadsheet_examples/header_cells.xlsx");
+            var file = new FileInfo("Resources/spreadsheet_examples/header_cells.xlsx");
 
             using (var stream = new FileStream(file.FullName, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
@@ -106,8 +106,8 @@ namespace Refinery.Tests.Cell
             SimpleHeaderCell m3 = new SimpleHeaderCell("merged3");
             SimpleHeaderCell m4 = new SimpleHeaderCell("merged4");
 
-            MergedHeaderCell merged1 = new MergedHeaderCell(new StringHeaderCell("mergedHeader1"), new List<AbstractHeaderCell> { m1, m2 });
-            MergedHeaderCell merged2 = new MergedHeaderCell(new StringHeaderCell("mergedHeader2"), new List<AbstractHeaderCell> { m3, m4 });
+            MergedHeaderCell merged1 = new MergedHeaderCell(new StringHeaderCell("mergedHeader1"), new HashSet<AbstractHeaderCell> { m1, m2 });
+            MergedHeaderCell merged2 = new MergedHeaderCell(new StringHeaderCell("mergedHeader2"), new HashSet<AbstractHeaderCell> { m3, m4 });
 
             // when
             var result = headerRowResolver.ResolveHeaderCellIndex(headerRow, new List<AbstractHeaderCell> { merged1, merged2 });
@@ -175,8 +175,8 @@ namespace Refinery.Tests.Cell
             SimpleHeaderCell m3 = new SimpleHeaderCell("merged3");
             SimpleHeaderCell m4 = new SimpleHeaderCell("merged4");
 
-            MergedHeaderCell merged1 = new MergedHeaderCell(new StringHeaderCell("merged"), new List<AbstractHeaderCell> { m1, m2 });
-            MergedHeaderCell merged2 = new MergedHeaderCell(new StringHeaderCell("merged"), new List<AbstractHeaderCell> { m3, m4 });
+            MergedHeaderCell merged1 = new MergedHeaderCell(new StringHeaderCell("merged"), new HashSet<AbstractHeaderCell> { m1, m2 });
+            MergedHeaderCell merged2 = new MergedHeaderCell(new StringHeaderCell("merged"), new HashSet<AbstractHeaderCell> { m3, m4 });
             OrderedHeaderCell ordered1 = new OrderedHeaderCell(merged1, 1);
             OrderedHeaderCell ordered2 = new OrderedHeaderCell(merged2, 2);
 
@@ -209,8 +209,8 @@ namespace Refinery.Tests.Cell
             SimpleHeaderCell r1 = new SimpleHeaderCell("regexHeader");
             SimpleHeaderCell r2 = new SimpleHeaderCell("regexHeader2");
 
-            MergedHeaderCell merged1 = new MergedHeaderCell(new StringHeaderCell("merged"), new List<AbstractHeaderCell> { m1, m2 });
-            MergedHeaderCell merged2 = new MergedHeaderCell(new StringHeaderCell("merged"), new List<AbstractHeaderCell> { m3, m4 });
+            MergedHeaderCell merged1 = new MergedHeaderCell(new StringHeaderCell("merged"), new HashSet<AbstractHeaderCell> { m1, m2 });
+            MergedHeaderCell merged2 = new MergedHeaderCell(new StringHeaderCell("merged"), new HashSet<AbstractHeaderCell> { m3, m4 });
             OrderedHeaderCell ordered1 = new OrderedHeaderCell(merged1, 1);
             OrderedHeaderCell ordered2 = new OrderedHeaderCell(merged2, 2);
 
@@ -238,7 +238,7 @@ namespace Refinery.Tests.Cell
         [Fact]
         public void TestMergedOrderedCellThrowsException()
         {
-            Assert.Throws<ArgumentException>(() => new MergedHeaderCell(new OrderedHeaderCell(new SimpleHeaderCell(""), 1), new List<AbstractHeaderCell>()));
+            Assert.Throws<ArgumentException>(() => new MergedHeaderCell(new OrderedHeaderCell(new SimpleHeaderCell(""), 1), new HashSet<AbstractHeaderCell>()));
         }
     }
 }
