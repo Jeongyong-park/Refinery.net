@@ -51,7 +51,7 @@ namespace Refinery.Result
 
         public Dictionary<string, object> AllData()
         {
-            if (divider == null)
+            if (string.IsNullOrWhiteSpace(divider))
             {
                 return data;
             }

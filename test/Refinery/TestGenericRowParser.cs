@@ -11,7 +11,7 @@ public class TestGenericRowParser
     public void TestGenericRowParserParsesTableAndProvidesCorrectRawParsedOutputIncludingUncapturedHeaders()
     {
         // given
-        var file = new FileInfo("spreadsheet_examples/test_spreadsheet_uncaptured.xlsx");
+        var file = new FileInfo("Resources/spreadsheet_examples/test_spreadsheet_uncaptured.xlsx");
         var stream = new FileStream(file.FullName, FileMode.Open, FileAccess.Read, FileShare.Read);
         var workbook = WorkbookFactory.Create(stream);
         var fileName = file.Name;

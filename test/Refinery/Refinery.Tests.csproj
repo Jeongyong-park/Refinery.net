@@ -34,11 +34,54 @@
     <None Remove="Configuration\" />
   </ItemGroup>
  <ItemGroup>
-    <None Include="spreadsheet_examples\**" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Resources\spreadsheet_examples\**" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 
  <ItemGroup>
    <Folder Include="Configuration\" />
+ </ItemGroup>
+
+
+ <ItemGroup>
+   <None Update="Resources\examples\basic_examples.xlsx">
+     <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+   </None>
+   <None Update="Resources\examples\medium_article_example.xlsx">
+     <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+   </None>
+   <None Update="Resources\spreadsheet_examples\cell_parsers.xlsx">
+     <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+   </None>
+   <None Update="Resources\spreadsheet_examples\header_cells.xlsx">
+     <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+   </None>
+   <None Update="Resources\spreadsheet_examples\test_spreadsheet.xlsx">
+     <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+   </None>
+   <None Update="Resources\spreadsheet_examples\test_spreadsheet_duplicates.xlsx">
+     <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+   </None>
+   <None Update="Resources\spreadsheet_examples\test_spreadsheet_merged_cells.xlsx">
+     <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+   </None>
+   <None Update="Resources\spreadsheet_examples\test_spreadsheet_multisheet.xlsx">
+     <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+   </None>
+   <None Update="Resources\spreadsheet_examples\test_spreadsheet_multitable_anchors.xlsx">
+     <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+   </None>
+   <None Update="Resources\spreadsheet_examples\test_spreadsheet_multitable_anchors_no_header.xlsx">
+     <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+   </None>
+   <None Update="Resources\spreadsheet_examples\test_spreadsheet_multitable_unaligned.xlsx">
+     <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+   </None>
+   <None Update="Resources\spreadsheet_examples\test_spreadsheet_numbers_and_formulas.xlsx">
+     <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+   </None>
+   <None Update="Resources\spreadsheet_examples\test_spreadsheet_uncaptured.xlsx">
+     <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+   </None>
  </ItemGroup>
 </Project>

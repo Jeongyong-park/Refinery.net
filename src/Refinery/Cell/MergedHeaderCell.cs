@@ -19,9 +19,9 @@ namespace Refinery.Cell
         /// <summary>
         /// What cells to map to. Any of <see cref="SimpleHeaderCell"/>, <see cref="StringHeaderCell"/>, or <see cref="RegexHeaderCell"/>
         /// </summary>
-        public List<AbstractHeaderCell> HeaderCells { get; }
+        public HashSet<AbstractHeaderCell> HeaderCells { get; }
 
-        public MergedHeaderCell(AbstractHeaderCell headerCell, List<AbstractHeaderCell> headerCells)
+        public MergedHeaderCell(AbstractHeaderCell headerCell, HashSet<AbstractHeaderCell> headerCells)
         {
             HeaderCell = headerCell;
             HeaderCells = headerCells;
