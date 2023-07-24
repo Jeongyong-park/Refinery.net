@@ -15,7 +15,7 @@ namespace Refinery
         private readonly ISheet sheet;
         private readonly TableParserDefinition definition;
         private readonly Metadata metadata;
-        private readonly TableLocation location;
+        public TableLocation location { get; internal set; }
         private readonly MergedCellsResolver mergedCellsResolver;
         private readonly ExceptionManager exceptionManager;
         private readonly HeaderRowResolver headerRowResolver;
@@ -38,6 +38,7 @@ namespace Refinery
             this.exceptionManager = exceptionManager;
             this.headerRowResolver = headerRowResolver;
         }
+
 
         public List<ParsedRecord> Parse()
         {
@@ -251,7 +252,7 @@ namespace Refinery
         {
             return row.Cells.Where(cell => cell.CellType != CellType.Blank && cell.ToString().Trim() != "");
         }
-    }
+   }
 
     internal class TableLocation
     {

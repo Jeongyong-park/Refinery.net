@@ -115,7 +115,7 @@ namespace Refinery.Tests
             {
                 new SheetParserDefinition(
                     name=>true,
-                    new List<TableParserDefinition>{
+                    tableDefinitions: new List<TableParserDefinition>{
                         new TableParserDefinition(
                             new HashSet<AbstractHeaderCell>{
                                 new SimpleHeaderCell("string"),
@@ -135,6 +135,7 @@ namespace Refinery.Tests
                         new MetadataEntryDefinition("key4", "key4", MetadataValueLocation.NextCellValue, (cell)=>cell.ToString()),
                         new MetadataEntryDefinition("key5", "key5", MetadataValueLocation.NextCellValue, (cell)=>cell.ToString()),
                         new MetadataEntryDefinition("key6", "key6", MetadataValueLocation.NextCellValue, (cell)=>cell.ToString()),
+                        
                     }
                 )
             }

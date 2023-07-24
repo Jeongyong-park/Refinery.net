@@ -45,7 +45,8 @@ namespace Refinery.Cell
         {
             var cellValues = AsMappedSet(row);
             var missingColumns = definition.RequiredColumns.Where(column => !column.Inside(cellValues));
-            return !missingColumns.Any();
+            var result = !missingColumns.Any();
+            return result;
         }
 
         private IEnumerable<ICell> AsMappedSet(IRow row)
@@ -64,15 +65,6 @@ namespace Refinery.Cell
             List<OrderedHeaderCell> orderedCells
         )
         {
-            //val matches = mutableMapOf<AbstractHeaderCell, Int>()
-            //val sortedCells = orderedCells.sortedBy { it.priority }
-            //row.asMappedSequence().forEach {
-            //    cell->
-            //        val filtered = sortedCells.filterNot { matches.contains(it.headerCell) }
-            //    val headerCellOrNull = filtered.firstOrNull { oc->oc.matches(cell) }
-            //    if (headerCellOrNull != null) matches[headerCellOrNull.headerCell] = cell.columnIndex
-            //}
-            //return matches
             var matches = new Dictionary<AbstractHeaderCell, int>();
             var sortedCells = orderedCells.OrderBy(c => c.Priority);
 
@@ -92,17 +84,6 @@ namespace Refinery.Cell
             List<AbstractHeaderCell> unorderedCells
         )
         {
-
-            //private fun resolveUnorderedHeaders(
-            //    row: Row,
-            //    unorderedCells: List<AbstractHeaderCell>
-            //  ): Map<AbstractHeaderCell, Int> {
-            //    return row.asMappedSequence().mapNotNull {
-            //        cell->
-            //            val headerCellOrNull = unorderedCells.firstOrNull { hc->hc.matches(cell) }
-            //        if (headerCellOrNull != null) Pair(headerCellOrNull, cell.columnIndex) else null
-            //    }.toMap()
-            //}
             var matches = new Dictionary<AbstractHeaderCell, int>();
 
             foreach (var cell in AsMappedSet(row))

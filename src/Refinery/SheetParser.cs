@@ -9,6 +9,7 @@ using Refinery.Cell;
 using Refinery.Domain;
 using Refinery.Exceptions;
 using Refinery.Result;
+using static Refinery.MetadataParser;
 
 namespace Refinery
 {
@@ -20,6 +21,7 @@ namespace Refinery
         private readonly string workbookName;
         private readonly MergedCellsResolver mergedCellsResolver;
         private readonly HeaderRowResolver headerRowResolver;
+        private readonly MetadataParser metadataParser;
 
         public SheetParser(SheetParserDefinition definition, ISheet sheet, ExceptionManager exceptionManager, string workbookName)
         {
@@ -29,13 +31,14 @@ namespace Refinery
             this.workbookName = workbookName;
             this.mergedCellsResolver = new MergedCellsResolver(sheet);
             this.headerRowResolver = new HeaderRowResolver(mergedCellsResolver);
+            this.metadataParser = new MetadataParser(definition.MetadataParserDefinition, sheet, workbookName, mergedCellsResolver);
         }
 
         public List<ParsedRecord> Parse()
         {
             try
             {
-                Metadata metadata = new MetadataParser(definition.MetadataParserDefinition, sheet, workbookName, mergedCellsResolver).ExtractMetadata();
+                (Metadata metadata, MetadataLocation metadataLocation) = this.metadataParser.ExtractMetadata();
                 List<TableParser> tableParsers = ResolveTableParsers(metadata);
                 List<ParsedRecord> parsedRecords = new List<ParsedRecord>();
                 foreach (TableParser tableParser in tableParsers)
@@ -55,27 +58,45 @@ namespace Refinery
         {
             List<Tuple<TableParserDefinition, TableLocation>> tableLocations = ResolveTableLocations();
             List<TableParser> tableParsers = new List<TableParser>();
-            foreach (Tuple<TableParserDefinition, TableLocation> tableLocation in tableLocations)
+            Metadata pMetadata = metadata;
+
+            var idx = 0;
+            do
             {
-                TableParser tableParser = new TableParser(sheet, tableLocation.Item1, metadata, tableLocation.Item2, mergedCellsResolver, exceptionManager, headerRowResolver);
+                if (idx > 0)
+                {
+                    Tuple<TableParserDefinition, TableLocation> beforeTableLocation = tableLocations[idx - 1];
+                    (Metadata _metadata, MetadataLocation metadataLocation) = this.metadataParser.ExtractMetadata(beforeTableLocation.Item2.MinRow);
+
+                    var lastTableParser = tableParsers.Last();
+                    if(metadataLocation.MaxRow>0 && metadataLocation.MinRow>0)
+                        lastTableParser.location = new TableLocation(lastTableParser.location.MinRow, metadataLocation.MinRow - 1);
+
+                    pMetadata = _metadata;
+                }
+
+                Tuple<TableParserDefinition, TableLocation> currentTableLocation = tableLocations[idx];
+
+                TableParser tableParser = new TableParser(sheet, currentTableLocation.Item1, pMetadata, currentTableLocation.Item2, mergedCellsResolver, exceptionManager, headerRowResolver);
                 tableParsers.Add(tableParser);
-            }
+
+            } while (++idx < tableLocations.Count);
+
             return tableParsers;
         }
 
         private List<Tuple<TableParserDefinition, TableLocation>> ResolveTableLocations()
         {
             List<Tuple<TableParserDefinition, int>> definitionsBeginning = new List<Tuple<TableParserDefinition, int>>();
-            IEnumerator<IRow> rowIterator = (IEnumerator<IRow>)sheet.GetRowEnumerator();
-            while (rowIterator.MoveNext())
+            foreach (IRow row in sheet)
             {
-                IRow row = rowIterator.Current;
                 TableParserDefinition tableDefinition = TryMatchToTableParserDefinition(row);
                 if (tableDefinition != null)
                 {
                     definitionsBeginning.Add(Tuple.Create(tableDefinition, row.RowNum));
                 }
             }
+
             definitionsBeginning.Sort((def1, def2) => def1.Item2.CompareTo(def2.Item2));
             if (definitionsBeginning.Count == 0)
             {

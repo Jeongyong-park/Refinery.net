@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using NPOI.SS.Formula.UDF;
 using NPOI.SS.UserModel;
@@ -23,8 +24,9 @@ namespace Refinery
             this.mergedCellsResolver = mergedCellsResolver;
         }
 
-        public Metadata ExtractMetadata()
+        public (Metadata, MetadataLocation) ExtractMetadata(int startRowNum = 0)
         {
+            int minRowNum= int.MaxValue,maxRowNum=int.MinValue;
             var metadata = new Dictionary<string, object>
             {
                 { Metadata.SPREADSHEET_NAME, sheet.SheetName }
@@ -32,16 +34,22 @@ namespace Refinery
             if (workbookName != null)
                 metadata[Metadata.WORKBOOK_NAME] = workbookName;
 
+
             foreach (var definition in definitions)
             {
-                var kv = FindMetadata(definition);
-                metadata[kv.Key] = kv.Value;
+                var (kv, rowNum) = FindMetadata(definition, startRowNum);
+                if (kv.Key != null)
+                {
+                    metadata[kv.Key] = kv.Value;
+                }
+                minRowNum = Math.Min(rowNum, minRowNum);
+                maxRowNum = Math.Max(rowNum, maxRowNum);
             }
 
-            return new Metadata(metadata);
+            return (new Metadata(metadata), new MetadataLocation(minRowNum, maxRowNum));
         }
 
-        private KeyValuePair<string, object> FindMetadata(MetadataEntryDefinition definition)
+        private (KeyValuePair<string, object>, int) FindMetadata(MetadataEntryDefinition definition, int startRowNum)
         {
 
             ICell matchingCell = null;
@@ -52,6 +60,12 @@ namespace Refinery
                 IRow row = enumerator.Current as IRow;
                 if (row != null)
                 {
+
+                    if (row.RowNum < startRowNum)
+                    {
+                        continue;
+                    }
+
                     IEnumerator<ICell> cellEnumerator = row.GetEnumerator();
                     while (cellEnumerator.MoveNext())
                     {
@@ -62,9 +76,14 @@ namespace Refinery
                             break;
                         }
                     }
+                    if (matchingCell != null)
+                    {
+                        break;
+                    }
                 }
             }
-            if (matchingCell == null) return new KeyValuePair<string, object>();
+
+            if (matchingCell == null) return (new KeyValuePair<string, object>(), -1);
 
             ICell cell;
             switch (definition.ValueLocation)
@@ -73,16 +92,22 @@ namespace Refinery
                     cell = sheet.GetRow(matchingCell.RowIndex).GetCell(matchingCell.ColumnIndex);
                     break;
                 case MetadataValueLocation.NextCellValue:
-                    var mergedCell= mergedCellsResolver[matchingCell.RowIndex, matchingCell.ColumnIndex];
-                    if (mergedCell?.IsMergedCell??false) {
+                    var mergedCell = mergedCellsResolver[matchingCell.RowIndex, matchingCell.ColumnIndex];
+                    if (mergedCell?.IsMergedCell ?? false)
+                    {
                         int idx = 1;
-                        while (mergedCellsResolver[matchingCell.RowIndex, matchingCell.ColumnIndex + idx]?.IsMergedCell ?? false)
+                        var keyCellValue = mergedCell.StringCellValue;
+
+                        while (
+                            (mergedCell.Row.LastCellNum >= (matchingCell.ColumnIndex + idx)) &&
+                            (mergedCellsResolver[matchingCell.RowIndex, matchingCell.ColumnIndex + idx]?.ToString() == keyCellValue.ToString())
+                        )
                         {
                             idx++;
                         }
                         cell = sheet.GetRow(matchingCell.RowIndex).GetCell(matchingCell.ColumnIndex + idx);
                         break;
-                    }                    
+                    }
                     cell = sheet.GetRow(matchingCell.RowIndex).GetCell(matchingCell.ColumnIndex + 1);
                     break;
                 default:
@@ -90,7 +115,18 @@ namespace Refinery
                     break;
             }
 
-            return new KeyValuePair<string, object>(definition.MetadataName, definition.Extractor.Invoke(cell));
+            return (new KeyValuePair<string, object>(definition.MetadataName, definition.Extractor.Invoke(cell)), cell?.RowIndex ?? -1);
+        }
+        public class MetadataLocation
+        {
+            public int MinRow { get; }
+            public int MaxRow { get; }
+
+            public MetadataLocation(int minRow, int maxRow)
+            {
+                MinRow = minRow;
+                MaxRow = maxRow;
+            }
         }
     }
 }

@@ -33,10 +33,11 @@ namespace Refinery.Tests
             var fileName = "Resources/spreadsheet_examples/test_spreadsheet_multitable_anchors.xlsx";
             var file = new FileInfo(fileName);
             var exceptionManager = new ExceptionManager();
+            var stream = new FileStream(file.FullName, FileMode.Open, FileAccess.Read, FileShare.Read);
 
             // when'
             List<ParsedRecord> records;
-            using (var workbook = WorkbookFactory.Create(file.FullName))
+            using (var workbook = WorkbookFactory.Create(stream))
             {
                 var parser = new WorkbookParser(definition, workbook, exceptionManager, fileName);
                 records = parser.Parse();
@@ -117,8 +118,10 @@ namespace Refinery.Tests
             var file = new FileInfo(fileName);
             var exceptionManager = new ExceptionManager();
             List<ParsedRecord> records;
+            var stream = new FileStream(file.FullName, FileMode.Open, FileAccess.Read, FileShare.Read);
+
             // when
-            using (var workbook = WorkbookFactory.Create(file.FullName))
+            using (var workbook = WorkbookFactory.Create(stream))
             {
                 var parser = new WorkbookParser(definition, workbook, exceptionManager, fileName);
                 records = parser.Parse();
@@ -192,10 +195,10 @@ namespace Refinery.Tests
             var fileName = "Resources/spreadsheet_examples/test_spreadsheet_multisheet.xlsx";
             var file = new FileInfo(fileName);
             var exceptionManager = new ExceptionManager();
-
+            var stream = new FileStream(file.FullName, FileMode.Open, FileAccess.Read, FileShare.Read);
             // when
             List<ParsedRecord> records;
-            using (var workbook = WorkbookFactory.Create(file.FullName))
+            using (var workbook = WorkbookFactory.Create(stream))
             {
                 var parser = new WorkbookParser(definition, workbook, exceptionManager, fileName);
                 records = parser.Parse();
@@ -275,9 +278,9 @@ namespace Refinery.Tests
             var fileName = "Resources/spreadsheet_examples/test_spreadsheet_merged_cells.xlsx";
             var file = new FileInfo(fileName);
             var exceptionManager = new ExceptionManager();
-
+            var stream = new FileStream(file.FullName, FileMode.Open, FileAccess.Read, FileShare.Read);
             List<ParsedRecord> records;
-            using (var workbook = WorkbookFactory.Create(file.FullName))
+            using (var workbook = WorkbookFactory.Create(stream))
             {
                 var parser = new WorkbookParser(definition, workbook, exceptionManager, fileName);
                 records = parser.Parse();
