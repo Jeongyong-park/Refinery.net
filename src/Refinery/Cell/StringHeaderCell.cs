@@ -18,10 +18,12 @@ namespace Refinery.Cell
         /// The patterns to match.
         /// </summary>
         private List<string> Patterns { get; }
+        public string defaultName { get; protected set; }
 
-        public StringHeaderCell(List<string> patterns) { Patterns = patterns; }
+        public StringHeaderCell(List<string> patterns, string defaultName = "") { Patterns = patterns; this.defaultName = defaultName; }
 
-        public StringHeaderCell(string pattern) : this(new List<string> { pattern }) { }
+        public StringHeaderCell(string pattern, string defaultName = "") : this(new List<string> { pattern }, defaultName) { }
+        public StringHeaderCell(string pattern) : this(pattern, pattern) { }
 
         public override bool Matches(ICell cell)
         {
@@ -34,7 +36,8 @@ namespace Refinery.Cell
 
         }
 
-        public override string ToString() => $"[{String.Join(", ", Patterns)}]";
+        public override string ToString() =>
+            !string.IsNullOrWhiteSpace(defaultName) ? defaultName : $"[{String.Join(", ", Patterns)}]";
 
 
     }

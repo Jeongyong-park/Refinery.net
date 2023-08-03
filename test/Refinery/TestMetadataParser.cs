@@ -106,6 +106,12 @@ namespace Refinery.Tests
                 }),
             parsedRecords);
 
+            var targetRecord = parsedRecords.Where(item => item.ExtractedRawData["number"].Equals(222d)).FirstOrDefault();
+
+            Assert.NotNull(targetRecord);
+            Assert.Equal("value1-2", targetRecord.ExtractedRawData["key1"].ToString());
+            Assert.Equal("value6-2", targetRecord.ExtractedRawData["key6"].ToString());
+
         }
 
 

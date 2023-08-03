@@ -130,8 +130,8 @@ namespace Refinery.Tests.Cell
             // given
             IRow headerRow = GetHeaderRow();
 
-            StringHeaderCell simple1 = new StringHeaderCell("header");
-            StringHeaderCell simple2 = new StringHeaderCell("header");
+            StringHeaderCell simple1 = new StringHeaderCell(new List<string>() { "header", "header2" });
+            StringHeaderCell simple2 = new StringHeaderCell(new List<string>() { "header", "header2" }, "헤더");
             StringHeaderCell simple3 = new StringHeaderCell("header");
             StringHeaderCell simple4 = new StringHeaderCell("header");
             StringHeaderCell simple5 = new StringHeaderCell("header");
@@ -170,15 +170,15 @@ namespace Refinery.Tests.Cell
             // given
             IRow headerRow = GetHeaderRow();
 
-            SimpleHeaderCell m1 = new SimpleHeaderCell("merged1");
-            SimpleHeaderCell m2 = new SimpleHeaderCell("merged2");
-            SimpleHeaderCell m3 = new SimpleHeaderCell("merged3");
-            SimpleHeaderCell m4 = new SimpleHeaderCell("merged4");
+            SimpleHeaderCell m1 = new("merged1");
+            SimpleHeaderCell m2 = new("merged2");
+            SimpleHeaderCell m3 = new("merged3");
+            SimpleHeaderCell m4 = new("merged4");
 
-            MergedHeaderCell merged1 = new MergedHeaderCell(new StringHeaderCell("merged"), new HashSet<AbstractHeaderCell> { m1, m2 });
-            MergedHeaderCell merged2 = new MergedHeaderCell(new StringHeaderCell("merged"), new HashSet<AbstractHeaderCell> { m3, m4 });
-            OrderedHeaderCell ordered1 = new OrderedHeaderCell(merged1, 1);
-            OrderedHeaderCell ordered2 = new OrderedHeaderCell(merged2, 2);
+            MergedHeaderCell merged1 = new(new StringHeaderCell("merged"), new HashSet<AbstractHeaderCell> { m1, m2 });
+            MergedHeaderCell merged2 = new(new StringHeaderCell("merged"), new HashSet<AbstractHeaderCell> { m3, m4 });
+            OrderedHeaderCell ordered1 = new(merged1, 1);
+            OrderedHeaderCell ordered2 = new(merged2, 2);
 
             // when
             var result = headerRowResolver.ResolveHeaderCellIndex(headerRow, new List<AbstractHeaderCell> { ordered1, ordered2 });
@@ -201,18 +201,18 @@ namespace Refinery.Tests.Cell
             // given
             IRow headerRow = GetComplexHeaderRow();
 
-            SimpleHeaderCell s1 = new SimpleHeaderCell("simpleHeader1");
-            SimpleHeaderCell m1 = new SimpleHeaderCell("merged1");
-            SimpleHeaderCell m2 = new SimpleHeaderCell("merged2");
-            SimpleHeaderCell m3 = new SimpleHeaderCell("merged3");
-            SimpleHeaderCell m4 = new SimpleHeaderCell("merged4");
-            SimpleHeaderCell r1 = new SimpleHeaderCell("regexHeader");
-            SimpleHeaderCell r2 = new SimpleHeaderCell("regexHeader2");
+            SimpleHeaderCell s1 = new("simpleHeader1");
+            SimpleHeaderCell m1 = new("merged1");
+            SimpleHeaderCell m2 = new("merged2");
+            SimpleHeaderCell m3 = new("merged3");
+            SimpleHeaderCell m4 = new("merged4");
+            SimpleHeaderCell r1 = new("regexHeader");
+            SimpleHeaderCell r2 = new("regexHeader2");
 
-            MergedHeaderCell merged1 = new MergedHeaderCell(new StringHeaderCell("merged"), new HashSet<AbstractHeaderCell> { m1, m2 });
-            MergedHeaderCell merged2 = new MergedHeaderCell(new StringHeaderCell("merged"), new HashSet<AbstractHeaderCell> { m3, m4 });
-            OrderedHeaderCell ordered1 = new OrderedHeaderCell(merged1, 1);
-            OrderedHeaderCell ordered2 = new OrderedHeaderCell(merged2, 2);
+            MergedHeaderCell merged1 = new(new StringHeaderCell("merged"), new HashSet<AbstractHeaderCell> { m1, m2 });
+            MergedHeaderCell merged2 = new(new StringHeaderCell("merged"), new HashSet<AbstractHeaderCell> { m3, m4 });
+            OrderedHeaderCell ordered1 = new(merged1, 1);
+            OrderedHeaderCell ordered2 = new(merged2, 2);
 
             // when
             var result = headerRowResolver.ResolveHeaderCellIndex(
