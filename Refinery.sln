@@ -10,7 +10,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "솔루션 항목", "솔루션 항목", "{C7ACA3C6-BE90-4B2C-94EF-1E141635CE56}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
-		src\Refinery\Build.Props = src\Refinery\Build.Props
 	EndProjectSection
 EndProject
 Global

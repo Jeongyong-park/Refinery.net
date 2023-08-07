@@ -3,9 +3,9 @@
     <Nullable>warnings</Nullable>
     <TargetFrameworks>netstandard2.1;</TargetFrameworks>
     <Version></Version>
-    <PackageVersion>1.0.5</PackageVersion>
-    <AssemblyVersion>1.0.5.0</AssemblyVersion>
-    <FileVersion>1.0.5.0</FileVersion>
+    <PackageVersion>1.0.6</PackageVersion>
+    <AssemblyVersion>1.0.6.0</AssemblyVersion>
+    <FileVersion>1.0.6.0</FileVersion>
     <Authors>Jeongyong Park</Authors>
     <PackageId>Refinery</PackageId>
     <PackageTags>xlsx;xls;extraction;data-extraction;semi-structured-data;excel-extraction;wrangling</PackageTags>
