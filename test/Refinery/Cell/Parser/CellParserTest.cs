@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using NPOI.SS.UserModel;
+using NPOI.Util;
 using NPOI.XSSF.UserModel;
 
 namespace Refinery.Tests.Cell.Parser
@@ -11,13 +12,10 @@ namespace Refinery.Tests.Cell.Parser
 
         protected CellParserTest()
         {
-            NPOI.Util.LocaleUtil.SetUserLocale(CultureInfo.GetCultureInfo("en-US"));
-
             var file = new FileInfo("Resources/spreadsheet_examples/cell_parsers.xlsx");
             using (var stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.Read))
             {
                 workbook = new XSSFWorkbook(stream);
-                
                 sheet = workbook.GetSheet("cell_parsers");
             }
         }

@@ -131,7 +131,7 @@ namespace Refinery.Tests.Cell
             IRow headerRow = GetHeaderRow();
 
             StringHeaderCell simple1 = new StringHeaderCell(new List<string>() { "header", "header2" });
-            StringHeaderCell simple2 = new StringHeaderCell(new List<string>() { "header", "header2" }, "헤더");
+            StringHeaderCell simple2 = new StringHeaderCell(new List<string>() { "header", "header2" });
             StringHeaderCell simple3 = new StringHeaderCell("header");
             StringHeaderCell simple4 = new StringHeaderCell("header");
             StringHeaderCell simple5 = new StringHeaderCell("header");

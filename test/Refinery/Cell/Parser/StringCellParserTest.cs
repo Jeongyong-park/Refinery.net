@@ -1,26 +1,32 @@
-﻿using NPOI.Util;
+﻿using NPOI.SS.UserModel;
+using NPOI.Util;
 using Refinery.Cell.Parser;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Xunit.Abstractions;
 
 namespace Refinery.Tests.Cell.Parser
 {
     public class StringCellParserTest : CellParserTest
     {
+
         private readonly CellParser<string> _parser = new StringCellParser();
 
         [Fact]
         public void ShouldParseToString()
         {
-            LocaleUtil.SetUserLocale(System.Globalization.CultureInfo.GetCultureInfo("en", "US"));
+            System.Threading.Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("en-US");
+
             // expect
             Assert.Equal("example", _parser.Parse(StringCell()));
             Assert.Equal("3.1415", _parser.Parse(DoubleCell()));
             Assert.Equal("1", _parser.Parse(IntCell()));
             Assert.Equal("12-Dec-2021", _parser.TryParse(DateCell()));
+            
             Assert.Equal("TRUE", _parser.Parse(BoolCell()));
             Assert.Equal("2.78", _parser.Parse(DoubleAsStringCell()));
         }
@@ -28,7 +34,7 @@ namespace Refinery.Tests.Cell.Parser
         [Fact]
         public void ShouldTryToParseToStringOrNullIfFailed()
         {
-            LocaleUtil.SetUserLocale(System.Globalization.CultureInfo.GetCultureInfo("en", "US"));
+            System.Threading.Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("en-US");
             // expect
             Assert.Equal("example", _parser.TryParse(StringCell()));
             Assert.Null(_parser.TryParse(EmptyStringCell()));
