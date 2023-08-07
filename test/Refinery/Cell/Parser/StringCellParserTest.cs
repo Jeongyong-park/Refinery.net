@@ -1,4 +1,5 @@
-﻿using Refinery.Cell.Parser;
+﻿using NPOI.Util;
+using Refinery.Cell.Parser;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,12 +15,12 @@ namespace Refinery.Tests.Cell.Parser
         [Fact]
         public void ShouldParseToString()
         {
+            LocaleUtil.SetUserLocale(System.Globalization.CultureInfo.GetCultureInfo("en", "US"));
             // expect
             Assert.Equal("example", _parser.Parse(StringCell()));
             Assert.Equal("3.1415", _parser.Parse(DoubleCell()));
             Assert.Equal("1", _parser.Parse(IntCell()));
-            //Assert.Equal("12-Dec-2021", parser.TryParse(DateCell()));
-            Assert.Matches(@"^12-\w{3}-2021$", _parser.Parse(DateCell()));
+            Assert.Equal("12-Dec-2021", _parser.TryParse(DateCell()));
             Assert.Equal("TRUE", _parser.Parse(BoolCell()));
             Assert.Equal("2.78", _parser.Parse(DoubleAsStringCell()));
         }
@@ -27,13 +28,13 @@ namespace Refinery.Tests.Cell.Parser
         [Fact]
         public void ShouldTryToParseToStringOrNullIfFailed()
         {
+            LocaleUtil.SetUserLocale(System.Globalization.CultureInfo.GetCultureInfo("en", "US"));
             // expect
             Assert.Equal("example", _parser.TryParse(StringCell()));
             Assert.Null(_parser.TryParse(EmptyStringCell()));
             Assert.Equal("3.1415", _parser.TryParse(DoubleCell()));
             Assert.Equal("1", _parser.TryParse(IntCell()));
-            //Assert.Equal("12-Dec-2021", parser.TryParse(DateCell()));
-            Assert.Matches(@"^12-\w{3}-2021$", _parser.Parse(DateCell()));
+            Assert.Equal("12-Dec-2021", _parser.TryParse(DateCell()));
             Assert.Equal("TRUE", _parser.TryParse(BoolCell()));
             Assert.Null(_parser.TryParse(NullCell()));
             Assert.Equal("2.78", _parser.TryParse(DoubleAsStringCell()));
