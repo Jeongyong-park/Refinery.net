@@ -134,13 +134,13 @@ namespace Refinery.Tests
                         )
                     },
                     metadataParserDefinition: new List<MetadataEntryDefinition>{
-                        new MetadataEntryDefinition("key1", "key1", MetadataValueLocation.NextCellValue, (cell)=>cell.ToString()),
-                        new MetadataEntryDefinition("key2", "key2", MetadataValueLocation.NextCellValue, (cell)=>cell.ToString()),
-                        new MetadataEntryDefinition("key3", "key3", MetadataValueLocation.NextCellValue, (cell)=>cell.ToString()),
+                        new MetadataEntryDefinition("key1", "key1", MetadataValueLocation.NEXT_CELL_VALUE, (cell)=>cell.ToString()),
+                        new MetadataEntryDefinition("key2", "key2", MetadataValueLocation.NEXT_CELL_VALUE, (cell)=>cell.ToString()),
+                        new MetadataEntryDefinition("key3", "key3", MetadataValueLocation.NEXT_CELL_VALUE, (cell)=>cell.ToString()),
 
-                        new MetadataEntryDefinition("key4", "key4", MetadataValueLocation.NextCellValue, (cell)=>cell.ToString()),
-                        new MetadataEntryDefinition("key5", "key5", MetadataValueLocation.NextCellValue, (cell)=>cell.ToString()),
-                        new MetadataEntryDefinition("key6", "key6", MetadataValueLocation.NextCellValue, (cell)=>cell.ToString()),
+                        new MetadataEntryDefinition("key4", "key4", MetadataValueLocation.NEXT_CELL_VALUE, (cell)=>cell.ToString()),
+                        new MetadataEntryDefinition("key5", "key5", MetadataValueLocation.NEXT_CELL_VALUE, (cell)=>cell.ToString()),
+                        new MetadataEntryDefinition("key6", "key6", MetadataValueLocation.NEXT_CELL_VALUE, (cell)=>cell.ToString()),
                         
                     }
                 )

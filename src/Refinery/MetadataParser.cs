@@ -26,7 +26,7 @@ namespace Refinery
 
         public (Metadata, MetadataLocation) ExtractMetadata(int startRowNum = 0)
         {
-            int minRowNum= int.MaxValue,maxRowNum=int.MinValue;
+            int minRowNum = int.MaxValue, maxRowNum = int.MinValue;
             var metadata = new Dictionary<string, object>
             {
                 { Metadata.SPREADSHEET_NAME, sheet.SheetName }
@@ -88,10 +88,23 @@ namespace Refinery
             ICell cell;
             switch (definition.ValueLocation)
             {
-                case MetadataValueLocation.SameCellValue:
+                case MetadataValueLocation.PREVIOUS_ROW_VALUE:
+                    cell = sheet.GetRow(matchingCell.RowIndex - 1).GetCell(matchingCell.ColumnIndex);
+                    break;
+
+                case MetadataValueLocation.NEXT_ROW_VALUE:
+                    cell = sheet.GetRow(matchingCell.RowIndex + 1).GetCell(matchingCell.ColumnIndex);
+                    break;
+
+                case MetadataValueLocation.PREVIOUS_CELL_VALUE:
+                    cell = sheet.GetRow(matchingCell.RowIndex).GetCell(matchingCell.ColumnIndex - 1);
+                    break;
+
+                case MetadataValueLocation.SAME_CELL_VALUE:
                     cell = sheet.GetRow(matchingCell.RowIndex).GetCell(matchingCell.ColumnIndex);
                     break;
-                case MetadataValueLocation.NextCellValue:
+
+                case MetadataValueLocation.NEXT_CELL_VALUE:
                     var mergedCell = mergedCellsResolver[matchingCell.RowIndex, matchingCell.ColumnIndex];
                     if (mergedCell?.IsMergedCell ?? false)
                     {
